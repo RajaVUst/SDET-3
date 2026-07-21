@@ -1,0 +1,23 @@
+trigger:
+  - main
+  - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '21'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
+
+  - script: |
+      cd apitesting
+      mvn test
+    displayName: 'Run API tests'
+    env:
+      DEMOQA_BASE_URL: $(DEMOQA_BASE_URL)
+      DEMOQA_USERNAME_PREFIX: $(DEMOQA_USERNAME_PREFIX)
+      DEMOQA_USERNAME: $(DEMOQA_USERNAME)
+      DEMOQA_PASSWORD: $(DEMOQA_PASSWORD)
