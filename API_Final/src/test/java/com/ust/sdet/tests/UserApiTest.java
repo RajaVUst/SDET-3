@@ -50,7 +50,7 @@ public class UserApiTest extends BaseTest {
                 .when()
                 .post("/Account/v1/User")
                 .then()
-
+ .body(matchesJsonSchemaInClasspath("schemas/user-schemas.json"))
                 .spec(ReqSpec.successResponse())
                 .extract()
                 .response();
