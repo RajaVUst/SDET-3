@@ -14,7 +14,7 @@ permissions:
 
 env:
   BASE_URL: ${{ secrets.MANJUSHREE_BASE_URL }}
-  CARDHOLDER_NAME: ${{ secrets.CARDHOLDER_NAME }}
+  CARDHOLDER_NAME: ${{ secrets.CARD_HOLDER_NAME }}
   CARD_NUMBER: ${{ secrets.CARD_NUMBER }}
   BROWSER: chromium
   HEADLESS: "true"
