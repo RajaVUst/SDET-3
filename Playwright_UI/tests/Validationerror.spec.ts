@@ -1,6 +1,7 @@
 import { PaymentPage } from './../pages/PaymentPage';
 import { test ,expect} from "../fixtures/baseFixtures";
-import { Evidence } from "../utils/evidence";
+import { Evidence } from '../utils/Evidence';
+
 
 test("Payment failure Validation", async ({ paymentFlow, page }) => {
   await paymentFlow.HomePageNavigation();
