@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import { Evidence } from "../utils/evidence";
+import { Evidence } from "../utils/Evidence";
 import { PaymentFlow } from "../flows/PaymentFlow";
 
 type Fixtures = {
