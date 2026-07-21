@@ -5,13 +5,13 @@ on:
     branches:
       - main
       - master
-      - Bhumika_Final_Assessment
+      - 272816_bhumika
 
   pull_request:
     branches:
       - main
       - master
-      - Bhumika_Final_Assessment
+      - 272816_bhumika
 
   workflow_dispatch:
 
