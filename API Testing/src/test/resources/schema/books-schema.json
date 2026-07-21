@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "books": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "isbn": { "type": "string" },
+          "title": { "type": "string" },
+          "author": { "type": "string" },
+          "pages": { "type": "number" }
+        },
+        "required": ["isbn", "title", "author"]
+      }
+    }
+  },
+  "required": ["books"]
+}

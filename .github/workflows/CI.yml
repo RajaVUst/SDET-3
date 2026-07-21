@@ -1,4 +1,4 @@
-name: Playwright CI
+name: CI
 
 on:
   push:
@@ -44,4 +44,37 @@ jobs:
         with:
           name: playwright-report
           path: UI automation/playwright-report/
+          if-no-files-found: warn
+
+  api-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "API Testing"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+          cache-dependency-path: "API Testing/pom.xml"
+
+      - name: Run API tests
+        env:
+          API_BASE_URI: ${{ secrets.API_BASE_URI }}
+          API_USERNAME: ${{ secrets.API_USERNAME }}
+          API_PASSWORD: ${{ secrets.API_PASSWORD }}
+        run: mvn -B test
+
+      - name: Upload API test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: "API Testing/target"
           if-no-files-found: warn
