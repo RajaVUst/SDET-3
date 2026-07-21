@@ -6,13 +6,16 @@ import io.qameta.allure.SeverityLevel;
 import io.restassured.response.Response;
 import models.User;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import specs.SpecFactory;
 import utils.LoggerUtil;
 
+import java.util.UUID;
+
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Epic("DemoQA API Automation")
 @Feature("Book Store API")
@@ -24,15 +27,18 @@ public class UserApiTest extends BaseTest {
     private static final Logger log = LoggerUtil.getLogger(UserApiTest.class);
 
     @Test
-    @Description("Creates a new user, generates an authentication token, and retrieves the list of books using the token.")
+    @DisplayName("Verify Create User, Generate Token and Retrieve Books")
+    @Description("Creates a new user, generates an authentication token and retrieves books using Bearer Token.")
     void createUserGenerateTokenAndGetBooks() {
 
+        String username = "saiteja_" + UUID.randomUUID();
+
         User user = new User(
-                "Saiteja@kodi123",
+                username,
                 "Password@123"
         );
 
-        log.info("Creating user...");
+        log.info("Creating user: {}", username);
 
         Response createResponse =
                 given()
@@ -47,7 +53,13 @@ public class UserApiTest extends BaseTest {
                         .response();
 
         Allure.addAttachment("Create User", createResponse.asPrettyString());
+
+        assertEquals(username, createResponse.jsonPath().getString("username"));
+        assertNotNull(createResponse.jsonPath().getString("userID"));
+        assertTrue(createResponse.jsonPath().getList("books").isEmpty());
+
         log.info("User created successfully.");
+
         log.info("Generating token...");
 
         Response tokenResponse =
@@ -65,9 +77,14 @@ public class UserApiTest extends BaseTest {
         Allure.addAttachment("Generate Token", tokenResponse.asPrettyString());
 
         String token = tokenResponse.jsonPath().getString("token");
+
         assertEquals("Success", tokenResponse.jsonPath().getString("status"));
+        assertNotNull(token);
+        assertFalse(token.isBlank());
+        assertNotNull(tokenResponse.jsonPath().getString("expires"));
 
         log.info("Token generated successfully.");
+
         log.info("Fetching books...");
 
         Response booksResponse =
@@ -82,6 +99,12 @@ public class UserApiTest extends BaseTest {
                         .response();
 
         Allure.addAttachment("Books", booksResponse.asPrettyString());
+
+        assertNotNull(booksResponse.jsonPath().getList("books"));
+        assertFalse(booksResponse.jsonPath().getList("books").isEmpty());
+        assertNotNull(booksResponse.jsonPath().getString("books[0].isbn"));
+        assertNotNull(booksResponse.jsonPath().getString("books[0].title"));
+        assertNotNull(booksResponse.jsonPath().getString("books[0].author"));
 
         log.info("Books fetched successfully.");
         log.info("API flow completed successfully.");
