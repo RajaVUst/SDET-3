@@ -1,4 +1,4 @@
-name: CI
+name: Playwright Tests
 
 on:
   push:
@@ -7,23 +7,9 @@ on:
   pull_request:
     branches:
       - manjushree_final_assessment
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-env:
-  BASE_URL: ${{ secrets.MANJUSHREE_BASE_URL }}
-  CARDHOLDER_NAME: ${{ secrets.CARD_HOLDER_NAME }}
-  CARD_NUMBER: ${{ secrets.CARD_NUMBER }}
-  BROWSER: chromium
-  HEADLESS: "true"
-  TIMEOUT: "30000"
-  LOG_LEVEL: info
 
 jobs:
-  playwright:
-    name: Playwright Tests
+  test:
     runs-on: ubuntu-latest
 
     defaults:
@@ -31,29 +17,29 @@ jobs:
         working-directory: playwright
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: playwright/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps chromium
+      - name: Install browsers
+        run: npx playwright install --with-deps
 
-      - name: Run Playwright Tests
+      - name: Run tests
         run: npx playwright test
 
-      - name: Upload Playwright Report
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright/playwright-report
-          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: playwright/test-results
