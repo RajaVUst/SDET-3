@@ -2,12 +2,7 @@ name: Playwright Tests
 
 on:
   push:
-    branches:
-      - manjushree_final_assessment
   pull_request:
-    branches:
-      - manjushree_final_assessment
-
 jobs:
   test:
     runs-on: ubuntu-latest
