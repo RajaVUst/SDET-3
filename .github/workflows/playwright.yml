@@ -75,3 +75,45 @@ jobs:
         with:
           name: logs
           path: Playwright_UI/logs/
+  api-tests:
+    name: API Automation Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: API_Final
+
+    env:
+      BASE_URL: ${{ secrets.API_BASE_URL }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Create API .env
+        run: |
+          echo "BASE_URL=${{ secrets.API_BASE_URL }}" > .env
+
+      - name: Run API Tests
+        run: mvn clean test
+
+      - name: Upload Surefire Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-surefire-reports
+          path: API_Final/target/surefire-reports
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-allure-results
+          path: API_Final/target/allure-results
