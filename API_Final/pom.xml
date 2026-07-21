@@ -17,7 +17,6 @@
         <junit.version>5.11.4</junit.version>
         <jackson.version>2.20.0</jackson.version>
         <allure.version>2.29.1</allure.version>
-        <mysql.version>9.4.0</mysql.version>
         <log4j.version>2.25.1</log4j.version>
     </properties>
 
