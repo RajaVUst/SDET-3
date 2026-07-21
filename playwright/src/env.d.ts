@@ -1,0 +1,20 @@
+export const env: {
+  baseUrl: string;
+  products: string[];
+  cartItemToRemoveAfterAdd: string;
+  cartItemToRemoveBeforeCheckout: string;
+  expectedCartCountAfterAdd: number;
+  expectedCartCountAfterRemoval: number;
+  guestName: string;
+  guestEmail: string;
+  guestPhone: string;
+  shippingStreet: string;
+  shippingCity: string;
+  shippingState: string;
+  shippingZip: string;
+  cardName: string;
+  cardNumber: string;
+  cardExpiry: string;
+  cardCvv: string;
+  paymentErrorMessage: string;
+};
