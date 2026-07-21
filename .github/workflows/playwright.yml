@@ -2,14 +2,16 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [Kavya_FinalAssesment]
+    branches:
+      - Kavya_FinalAssesment
+
   pull_request:
-    branches: [Kavya_FinalAssesment]
+    branches:
+      - Kavya_FinalAssesment
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
 
     defaults:
       run:
@@ -23,16 +25,22 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Install Playwright Browsers
+      - name: Install browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright Tests
+      - name: Run tests
         run: npx playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
-          path: playwright/playwright-report/
+          path: playwright/playwright-report
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: playwright/test-results
