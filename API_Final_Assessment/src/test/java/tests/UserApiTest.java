@@ -28,7 +28,7 @@ public class UserApiTest extends BaseTest {
     void createUserGenerateTokenAndGetBooks() {
 
         User user = new User(
-                "Saiteja@kodii",
+                "Saiteja@kodi123",
                 "Password@123"
         );
 
