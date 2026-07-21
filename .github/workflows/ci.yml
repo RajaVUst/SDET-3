@@ -23,8 +23,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: "22"
+          cache: "npm"
           cache-dependency-path: UI_Final_Assessment/package-lock.json
 
       - name: Install Dependencies
@@ -35,14 +35,14 @@ jobs:
 
       - name: Run Playwright Tests
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
-          CARD_HOLDER_NAME: ${{ secrets.CARD_HOLDER_NAME }}
-          CARD_NUMBER: ${{ secrets.CARD_NUMBER }}
-          CARD_EXPIRY: ${{ secrets.CARD_EXPIRY }}
-          CARD_CVV: ${{ secrets.CARD_CVV }}
+          BASE_URL: ${{ secrets.saiteja_BASE_URL }}
+          CARD_HOLDER_NAME: ${{ secrets.saiteja_CARD_HOLDER_NAME }}
+          CARD_NUMBER: ${{ secrets.saiteja_CARD_NUMBER }}
+          CARD_EXPIRY: ${{ secrets.saiteja_CARD_EXPIRY }}
+          CARD_CVV: ${{ secrets.saiteja_CARD_CVV }}
         run: npx playwright test
 
-      - name: Upload Playwright Report
+      - name: Upload Playwright HTML Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
