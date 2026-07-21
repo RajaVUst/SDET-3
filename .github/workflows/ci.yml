@@ -1,4 +1,4 @@
-name: Playwright CI
+name: Playwright and API CI
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    name: Run Playwright Tests
+    name: Run Playwright and API Tests
     runs-on: ubuntu-latest
     env:
       RETAILMART_BASE_URL: ${{ secrets.RETAILMART_BASE_URL }}
@@ -19,6 +19,9 @@ jobs:
       RETAILMART_PAYMENT_CARD_NUMBER: ${{ secrets.RETAILMART_PAYMENT_CARD_NUMBER }}
       RETAILMART_PAYMENT_CARD_EXPIRY: ${{ secrets.RETAILMART_PAYMENT_CARD_EXPIRY }}
       RETAILMART_PAYMENT_CARD_CVV: ${{ secrets.RETAILMART_PAYMENT_CARD_CVV }}
+      TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+      TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
 
     steps:
       - name: Checkout repository
@@ -29,7 +32,14 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Cache node modules
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "11"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Cache Playwright node modules
         uses: actions/cache@v4
         with:
           path: Playwright/node_modules
@@ -37,7 +47,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies
+      - name: Install Playwright dependencies
         working-directory: Playwright
         run: npm ci
 
@@ -49,9 +59,20 @@ jobs:
         working-directory: Playwright
         run: npx playwright test --reporter=github
 
+      - name: Run API tests (RestAssured)
+        working-directory: API
+        run: mvn clean test
+
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: Playwright/playwright-report/
+
+      - name: Upload API Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-report
+          path: API/target/surefire-reports/
