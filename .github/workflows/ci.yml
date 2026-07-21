@@ -13,6 +13,12 @@ jobs:
   test:
     name: Run Playwright Tests
     runs-on: ubuntu-latest
+    env:
+      RETAILMART_BASE_URL: ${{ secrets.RETAILMART_BASE_URL }}
+      RETAILMART_PAYMENT_CARDHOLDER: ${{ secrets.RETAILMART_PAYMENT_CARDHOLDER }}
+      RETAILMART_PAYMENT_CARD_NUMBER: ${{ secrets.RETAILMART_PAYMENT_CARD_NUMBER }}
+      RETAILMART_PAYMENT_CARD_EXPIRY: ${{ secrets.RETAILMART_PAYMENT_CARD_EXPIRY }}
+      RETAILMART_PAYMENT_CARD_CVV: ${{ secrets.RETAILMART_PAYMENT_CARD_CVV }}
 
     steps:
       - name: Checkout repository
