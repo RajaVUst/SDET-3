@@ -1,5 +1,4 @@
 import { expect, Page } from "@playwright/test";
-import { Config } from "../config/Config";
 import { ShopLocators } from "../locators/ShopLocators";
 
 export class CategoryPage {

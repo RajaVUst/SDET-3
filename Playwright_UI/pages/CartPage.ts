@@ -18,12 +18,12 @@ export class CartPage {
   }
 
   async verifyCartIconCount(expectedCount: number) {
-    await expect(this.cartIconCount()).toHaveText(String(expectedCount));
-  }
+  await expect(this.cartIconCount()).toHaveText(String(expectedCount));
+}
 
-  async verifySubtotalItemCount(expectedCount: number) {
-    await expect(this.subtotalItems()).toHaveText(
-      `Subtotal (${expectedCount} items)`,
-    );
-  }
+async verifySubtotalItemCount(expectedCount: number) {
+  await expect(this.subtotalItems()).toHaveText(
+    `Subtotal (${expectedCount} items)`
+  );
+}
 }

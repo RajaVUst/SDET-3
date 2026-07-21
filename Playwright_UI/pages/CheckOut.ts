@@ -1,5 +1,4 @@
-import { expect, Page } from "@playwright/test";
-import { Config } from "../config/Config";
+import {  Page } from "@playwright/test";
 import { ShopLocators } from "../locators/ShopLocators";
 import { CustomerData } from "../data/Customer";
 

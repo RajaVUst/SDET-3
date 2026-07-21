@@ -4,6 +4,7 @@ import { Evidence } from '../utils/Evidence';
 
 
 test("Payment failure Validation", async ({ paymentFlow, page }) => {
+  const paymentPage = new PaymentPage(page);
   await paymentFlow.HomePageNavigation();
   await paymentFlow.ShopNowNavigation();
   await paymentFlow.ProductNavigation();
@@ -12,7 +13,7 @@ test("Payment failure Validation", async ({ paymentFlow, page }) => {
   await paymentFlow.Checkout();
   await paymentFlow.EnterCustomerInformation();
   await paymentFlow.Payment();
-//  await this.paymentPage.verifyShippingDetailsRetained();c
+  // await paymentPage.verifyShippingDetailsRetained();values are not retaining after payment failure
   await Evidence.captureScreenshot(page, "PaymentFailure");
 });
 

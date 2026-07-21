@@ -18,7 +18,7 @@ export class PaymentPage {
     await this.locators.RadioFailure().click();
   }
   async Name() {
-    await this.locators.Name().fill("Test");
+    await this.locators.Name().fill("John");
   }
   async CardNumber() {
     await this.locators.CardNumber().fill("1234567890123456");
